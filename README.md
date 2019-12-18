@@ -13,7 +13,7 @@ Install docker and docker-compose
 docker build -t rasa-chatbot .
 ```
 
-Create a folder for models and logs and change there group and permission
+Create a folder for models and logs and change their group and permission
 ```
 sudo chgrp -R root ./models && sudo chmod -R 770 ./models
 sudo chgrp -R root ./logs && sudo chmod -R 770 ./logs
@@ -22,11 +22,12 @@ sudo chgrp -R root ./logs && sudo chmod -R 770 ./logs
 ###### Train model
 Note your directory name should not have spaces
 
-To train the model you can run, it will save model in models folder:
+To train the model you can run:
 ```powershell
 docker run   -v $(pwd):/app   rasa-chatbot:latest rasa   train     --domain /app/domain.yml     --data /app/data     --out /app/models --config /app/config/nlu_config.yml
 
 ```
+ This command will save model in models folder:
 
 ###### Run using docker compose
 ```
