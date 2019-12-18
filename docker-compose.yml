@@ -1,0 +1,44 @@
+version: '3.0'
+
+services:
+  rasa_chatbot:
+    build: .
+    image: rasa-chatbot:latest
+    depends_on:
+      - mongo
+    ports:
+      - 5005:5005
+    volumes:
+      - ./models:/app/models
+      - ./config:/app/config
+    command:
+      - rasa
+      - run
+      - -m
+      - /app/models/
+      - --enable-api
+      - --endpoints
+      - /app/config/endpoints.yml
+    stdin_open: true
+    tty: true
+
+  action_server:
+    image: rasa/rasa-sdk:1.5.2
+    volumes:
+      - ./actions:/app/actions
+
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: rasa
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_DATA_DIR: /data/db
+      MONGO_LOG_DIR: /data/db/mongoLogs
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data: {}
+
+
